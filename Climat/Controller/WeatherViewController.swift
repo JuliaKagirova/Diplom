@@ -45,7 +45,7 @@ class WeatherViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.text = "21"
-//        label.textColor = .black
+        //        label.textColor = .black
         label.font = .systemFont(ofSize: 52, weight: .heavy)
         return label
     }()
@@ -55,7 +55,7 @@ class WeatherViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.text = "°C"
-//        label.textColor = .black
+        //        label.textColor = .black
         label.font = .systemFont(ofSize: 52, weight: .bold)
         return label
     }()
@@ -135,7 +135,7 @@ class WeatherViewController: UIViewController {
         view.addSubview(descriptionLabel)
         view.addSubview(borderView)
     }
-   
+    
     //MARK: - Event Handler
     
     @objc private func locationButtonPressed() {
@@ -252,7 +252,7 @@ extension WeatherViewController {
             .isActive = true
         searchTextField.heightAnchor.constraint(equalToConstant: 50)
             .isActive = true
-       
+        
         //searchButton
         searchPressed.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor)
             .isActive = true
