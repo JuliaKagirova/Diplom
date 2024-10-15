@@ -266,13 +266,13 @@ extension WeatherViewController {
             .isActive = true
         
         //city
-        cityLabel.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 100)
+        cityLabel.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 87)
             .isActive = true
         cityLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
             .isActive = true
         
         //description
-        descriptionLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 16)
+        descriptionLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 18)
             .isActive = true
         descriptionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
             .isActive = true
@@ -287,12 +287,12 @@ extension WeatherViewController {
             .isActive = true
         
         //temperature
-        temperatureLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 22)
+        temperatureLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20)
             .isActive = true
         temperatureLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
             .isActive = true
         //C
-        cLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 22)
+        cLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20)
             .isActive = true
         cLabel.leadingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor, constant: 16)
             .isActive = true
