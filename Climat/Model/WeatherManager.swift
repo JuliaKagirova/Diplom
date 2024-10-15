@@ -71,7 +71,7 @@ struct WeatherManager {
                 temperature: temp,
                 description: description
             )
-            print(weather.conditionName, weather.temperatureString, description)
+            print(weather.conditionName, weather.temperatureString, weather.description)
             return weather
             
         } catch {
