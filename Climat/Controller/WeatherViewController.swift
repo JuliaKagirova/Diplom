@@ -6,14 +6,9 @@ import UIKit
 import CoreLocation
 
 class WeatherViewController: UIViewController {
-    
-//    @IBOutlet weak var conditionImageView: UIImageView!
-//    @IBOutlet weak var temperatureLabel: UILabel!
-//    @IBOutlet weak var cityLabel: UILabel!
-//    @IBOutlet weak var searchTextField: UITextField!
-    
+
     //MARK: - Properties
- 
+    
     var weatherManager = WeatherManager()
     let locationManager = CLLocationManager()
     
@@ -80,7 +75,6 @@ class WeatherViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "location.circle"), for: .normal)
         button.tintColor = .black
-//        button.backgroundColor = .white
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(locationButtonPressed), for: .touchUpInside)
         return button
@@ -91,15 +85,14 @@ class WeatherViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         button.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
-//        button.backgroundColor = .white
         button.tintColor = .black
         button.layer.cornerRadius = 20
-
+        
         return button
     }()
     
     //MARK: - Life Cycle
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -110,18 +103,14 @@ class WeatherViewController: UIViewController {
         searchTextField.delegate = self
         weatherManager.delegate = self
     }
-    
-//    @IBAction func locationPressed(_ sender: UIButton) {
-//        locationManager.requestLocation()
-//    }
-    
-    //MARK: - Private Methods
 
-   private func setupUI() {
-       view.addSubview(bgView)
+    //MARK: - Private Methods
+    
+    private func setupUI() {
+        view.addSubview(bgView)
         view.addSubview(conditionImageView)
         view.addSubview(temperatureLabel)
-       view.addSubview(cLabel)
+        view.addSubview(cLabel)
         view.addSubview(cityLabel)
         view.addSubview(searchTextField)
         view.addSubview(locationPressed)
@@ -181,7 +170,7 @@ class WeatherViewController: UIViewController {
             .isActive = true
         cLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
             .isActive = true
-                
+        
         cityLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: 26)
             .isActive = true
         cityLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
@@ -189,7 +178,7 @@ class WeatherViewController: UIViewController {
     }
     
     //MARK: - Event Handler
-
+    
     @objc private func locationButtonPressed() {
         locationManager.requestLocation()
     }
@@ -199,9 +188,6 @@ class WeatherViewController: UIViewController {
 
 extension WeatherViewController: UITextFieldDelegate {
     
-//    @IBAction func searchPressed(_ sender: UIButton) {
-//        searchTextField.endEditing(true)
-//    }
     @objc private func searchButtonPressed(_ sender: UIButton) {
         searchTextField.endEditing(true)
     }

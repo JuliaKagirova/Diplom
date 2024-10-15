@@ -2,7 +2,7 @@
 //  WeatherModel.swift
 //  Climat
 
-import Foundation
+import UIKit
 
 struct WeatherModel {
     let conditionId: Int

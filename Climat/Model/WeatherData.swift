@@ -2,7 +2,7 @@
 //  WeatherData.swift
 //  Climat
 
-import Foundation
+import UIKit
 
 struct WeatherData: Codable {
     let name: String
