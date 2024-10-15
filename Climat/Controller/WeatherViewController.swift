@@ -6,7 +6,7 @@ import UIKit
 import CoreLocation
 
 class WeatherViewController: UIViewController {
-
+    
     //MARK: - Properties
     
     var weatherManager = WeatherManager()
@@ -63,7 +63,7 @@ class WeatherViewController: UIViewController {
     private lazy var searchTextField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.placeholder = "Search"
+        field.placeholder = "Search..."
         field.font = .systemFont(ofSize: 22, weight: .medium)
         field.textColor = .systemGray2
         field.borderStyle = .roundedRect
@@ -103,7 +103,7 @@ class WeatherViewController: UIViewController {
         searchTextField.delegate = self
         weatherManager.delegate = self
     }
-
+    
     //MARK: - Private Methods
     
     private func setupUI() {
@@ -116,67 +116,7 @@ class WeatherViewController: UIViewController {
         view.addSubview(locationPressed)
         view.addSubview(searchPressed)
     }
-    private func setupConstraints() {
-        bgView.topAnchor.constraint(equalTo: view.topAnchor)
-            .isActive = true
-        bgView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
-            .isActive = true
-        bgView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-            .isActive = true
-        bgView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            .isActive = true
-        
-        searchTextField.centerYAnchor.constraint(equalTo: locationPressed.centerYAnchor)
-            .isActive = true
-        searchTextField.leadingAnchor.constraint(equalTo: locationPressed.trailingAnchor)
-            .isActive = true
-        searchTextField.heightAnchor.constraint(equalToConstant: 50)
-            .isActive = true
-        
-        locationPressed.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-            .isActive = true
-        locationPressed.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
-            .isActive = true
-        locationPressed.heightAnchor.constraint(equalToConstant: 50)
-            .isActive = true
-        locationPressed.widthAnchor.constraint(equalToConstant: 50)
-            .isActive = true
-        
-        searchPressed.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor)
-            .isActive = true
-        searchPressed.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor)
-            .isActive = true
-        searchPressed.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-            .isActive = true
-        searchPressed.heightAnchor.constraint(equalToConstant: 50)
-            .isActive = true
-        searchPressed.widthAnchor.constraint(equalToConstant: 50
-        ).isActive = true
-        
-        conditionImageView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 26)
-            .isActive = true
-        conditionImageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
-        conditionImageView.widthAnchor.constraint(equalToConstant: 100)
-            .isActive = true
-        conditionImageView.heightAnchor.constraint(equalToConstant: 120)
-            .isActive = true
-        
-        temperatureLabel.topAnchor.constraint(equalTo: conditionImageView.bottomAnchor, constant: 16)
-            .isActive = true
-        temperatureLabel.trailingAnchor.constraint(equalTo: cLabel.leadingAnchor, constant: -16)
-            .isActive = true
-        
-        cLabel.topAnchor.constraint(equalTo: conditionImageView.bottomAnchor, constant: 16)
-            .isActive = true
-        cLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
-            .isActive = true
-        
-        cityLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: 26)
-            .isActive = true
-        cityLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
-            .isActive = true
-    }
-    
+   
     //MARK: - Event Handler
     
     @objc private func locationButtonPressed() {
@@ -248,6 +188,73 @@ extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }
+}
+
+//MARK: - Constraints
+
+extension WeatherViewController {
+    
+    private func setupConstraints() {
+        bgView.topAnchor.constraint(equalTo: view.topAnchor)
+            .isActive = true
+        bgView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+            .isActive = true
+        bgView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            .isActive = true
+        bgView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            .isActive = true
+        
+        searchTextField.centerYAnchor.constraint(equalTo: locationPressed.centerYAnchor)
+            .isActive = true
+        searchTextField.leadingAnchor.constraint(equalTo: locationPressed.trailingAnchor)
+            .isActive = true
+        searchTextField.heightAnchor.constraint(equalToConstant: 50)
+            .isActive = true
+        
+        locationPressed.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            .isActive = true
+        locationPressed.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+            .isActive = true
+        locationPressed.heightAnchor.constraint(equalToConstant: 50)
+            .isActive = true
+        locationPressed.widthAnchor.constraint(equalToConstant: 50)
+            .isActive = true
+        
+        searchPressed.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor)
+            .isActive = true
+        searchPressed.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor)
+            .isActive = true
+        searchPressed.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            .isActive = true
+        searchPressed.heightAnchor.constraint(equalToConstant: 50)
+            .isActive = true
+        searchPressed.widthAnchor.constraint(equalToConstant: 50
+        ).isActive = true
+        
+        conditionImageView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 26)
+            .isActive = true
+        conditionImageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
+        conditionImageView.widthAnchor.constraint(equalToConstant: 100)
+            .isActive = true
+        conditionImageView.heightAnchor.constraint(equalToConstant: 120)
+            .isActive = true
+        
+        temperatureLabel.topAnchor.constraint(equalTo: conditionImageView.bottomAnchor, constant: 16)
+            .isActive = true
+        temperatureLabel.trailingAnchor.constraint(equalTo: cLabel.leadingAnchor, constant: -16)
+            .isActive = true
+        
+        cLabel.topAnchor.constraint(equalTo: conditionImageView.bottomAnchor, constant: 16)
+            .isActive = true
+        cLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            .isActive = true
+        
+        cityLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: 26)
+            .isActive = true
+        cityLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            .isActive = true
+    }
+    
 }
 
 
