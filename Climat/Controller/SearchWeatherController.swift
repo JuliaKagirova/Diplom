@@ -82,7 +82,7 @@ class SearchWeatherController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.placeholder = "Search..."
         field.font = .systemFont(ofSize: 22, weight: .medium)
-        field.textColor = .systemBackground
+        field.textColor = .black
         return field
     }()
     
