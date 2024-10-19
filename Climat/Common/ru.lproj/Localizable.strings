@@ -1,0 +1,14 @@
+//Search Screen
+"SearchScreen.title" = "Поиск";
+
+//Save Screen
+"SaveScreen.title" = "Сохраненные";
+
+//Settings Screen
+"SettingsScreen.title" = "Настройки";
+
+//Notification label
+"Notification.title" = "Уведомления";
+
+//Theme
+"Theme.title" = "Оформление";
