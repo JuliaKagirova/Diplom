@@ -1,16 +1,17 @@
 //
-//  ViewController.swift
+//  SearchWeatherController.swift
 //  Climat
 
 import UIKit
 import CoreLocation
 
-class WeatherViewController: UIViewController {
+class SearchWeatherController: UIViewController {
     
     //MARK: - Properties
-    
+    var currentWeather: WeatherModel?
     var weatherManager = WeatherManager()
     let locationManager = CLLocationManager()
+    var coordinator: Coordinator?
     
     //MARK: - Private Properties
     
@@ -18,7 +19,7 @@ class WeatherViewController: UIViewController {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.tintColor = UIColor(named: "borderColor")
+        view.tintColor = .icon
         return view
     }()
     
@@ -34,7 +35,7 @@ class WeatherViewController: UIViewController {
     private lazy var borderView: UIImageView = {
         let view = UIImageView()
         view.layer.cornerRadius = 20
-        view.layer.borderColor = UIColor(named: "borderColor")?.cgColor
+        view.layer.borderColor = UIColor(named: "iconColor")?.cgColor
         view.layer.borderWidth = 2
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -97,6 +98,16 @@ class WeatherViewController: UIViewController {
         return button
     }()
     
+    private lazy var savePressed: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.tintColor = .black
+//        button.layer.cornerRadius = 20
+        button.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var searchPressed: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -104,7 +115,6 @@ class WeatherViewController: UIViewController {
         button.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
         button.tintColor = .black
         button.layer.cornerRadius = 20
-        
         return button
     }()
     
@@ -124,31 +134,47 @@ class WeatherViewController: UIViewController {
     //MARK: - Private Methods
     
     private func setupUI() {
-        view.addSubview(bgView)
-        view.addSubview(conditionImageView)
-        view.addSubview(temperatureLabel)
-        view.addSubview(cLabel)
-        view.addSubview(cityLabel)
-        view.addSubview(searchTextField)
-        view.addSubview(locationPressed)
-        view.addSubview(searchPressed)
-        view.addSubview(descriptionLabel)
-        view.addSubview(borderView)
+        view.addSubviews(
+                bgView,
+                conditionImageView,
+                temperatureLabel,
+                cLabel,
+                cityLabel,
+                searchTextField,
+                locationPressed,
+                searchPressed,
+                descriptionLabel,
+                borderView,
+                savePressed
+            )
     }
     
     //MARK: - Event Handler
     
     @objc private func locationButtonPressed() {
         locationManager.requestLocation()
+        print("location button pressed")
+    }
+    
+    @objc private func saveButtonPressed() {
+        if let currentWeather {
+            CoreDataManager.shared.addWeather(weatherModel: currentWeather)
+            print("city added to core data")
+        } else {
+            print("weather didnt saved")
+            return
+        }
+        
     }
 }
 
 //MARK: - Extension UITextFieldDelegate
 
-extension WeatherViewController: UITextFieldDelegate {
+extension SearchWeatherController: UITextFieldDelegate {
     
     @objc private func searchButtonPressed(_ sender: UIButton) {
         searchTextField.endEditing(true)
+        print("search Button Pressed")
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -176,7 +202,7 @@ extension WeatherViewController: UITextFieldDelegate {
 
 //MARK: - Extension WeatherManagerDelegate
 
-extension WeatherViewController:  WeatherManagerDelegate {
+extension SearchWeatherController:  WeatherManagerDelegate {
     
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         DispatchQueue.main.async {
@@ -194,13 +220,13 @@ extension WeatherViewController:  WeatherManagerDelegate {
 
 //MARK: - CLLocationManagerDelegate
 
-extension WeatherViewController: CLLocationManagerDelegate {
+extension SearchWeatherController: CLLocationManagerDelegate {
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             locationManager.stopUpdatingLocation()
             let lat = location.coordinate.latitude
             let lon = location.coordinate.longitude
-            
             weatherManager.fetchWeather(latitude: lat, longitude: lon)
         }
     }
@@ -212,7 +238,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
 
 //MARK: - Constraints
 
-extension WeatherViewController {
+extension SearchWeatherController {
     
     private func setupConstraints() {
         //bg
@@ -296,8 +322,13 @@ extension WeatherViewController {
             .isActive = true
         cLabel.leadingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor, constant: 16)
             .isActive = true
+        
+        //plusButton
+        savePressed.centerYAnchor.constraint(equalTo: cityLabel.centerYAnchor)
+            .isActive = true
+        savePressed.leadingAnchor.constraint(equalTo: cityLabel.trailingAnchor, constant: 16)
+            .isActive = true
     }
-    
 }
 
 

@@ -99,14 +99,17 @@
 				};
 			};
 			buildConfigurationList = 1FE94EF92CBD670E00A02827 /* Build configuration list for PBXProject "Climat" */;
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ru,
 				Base,
 			);
 			mainGroup = 1FE94EF52CBD670E00A02827;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1FE94EFF2CBD670E00A02827 /* Products */;
 			projectDirPath = "";
@@ -148,6 +151,7 @@
 				DEVELOPMENT_TEAM = 6BFYV367MM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Climat/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow us to use your location to get you weather forecast ";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -178,6 +182,7 @@
 				DEVELOPMENT_TEAM = 6BFYV367MM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Climat/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow us to use your location to get you weather forecast ";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

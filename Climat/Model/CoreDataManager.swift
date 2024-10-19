@@ -6,50 +6,45 @@
 //
 
 import UIKit
-import RealmSwift
-import Realm
 import CoreData
 
 class CoreDataManager {
     
+    //MARK: - Properties
+
     static let shared = CoreDataManager()
     
-    var weathers: [WeatherModel] = []
+    var items: [WeatherItem] {
+        fetchWeather()
+    }
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    init() {
-        let config = Realm.Configuration(
-            schemaVersion: 1,
-            deleteRealmIfMigrationNeeded: false
-        )
-        Realm.Configuration.defaultConfiguration = config
-        
-        self.weathers = fetchWeathers()
+    //MARK: - Methods
+    
+    func fetchWeather() -> [WeatherItem] {
+        let request = WeatherItem.fetchRequest()
+        return (try? context.fetch(request)) ?? []
     }
     
-    func addWeather(data: WeatherData) {
-        let realm = try! Realm()
-        let weather = WeatherModel()
-        weather.cityName = data.name
-        weather.temperature = data.main.temp
-        weather.description = data.weather.description
-        
-        try! realm.write {
-            realm.add(weather)
-        }
-        weathers = fetchWeathers()
+    func deleteWeather(item: WeatherItem) {
+        let context = item.managedObjectContext
+        context?.delete(item)
+        try? context?.save()
     }
     
-    func deleteWeather(at index: Int) {
-        let realm = try! Realm()
-        try! realm.write {
-            realm.delete(weathers[index])
-        }
-        weathers = fetchWeathers()
+    private func getItem(weather: WeatherModel) -> WeatherItem? {
+        let request = WeatherItem.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", weather.cityName)
+        return (try? context.fetch(request))?.first
     }
-    
-    func fetchWeathers() -> [WeatherModel] {
-        let realm = try! Realm()
-        let weather = WeatherModel()
-        return realm.objects(WeatherModel.self).map { $0 }
+
+    func addWeather(weatherModel: WeatherModel) {
+        guard getItem(weather: weatherModel) == nil else { return }
+        let weather = WeatherItem(context: context)
+        weather.name = weatherModel.cityName
+        weather.descr = weatherModel.description
+        weather.image = weatherModel.conditionName
+        weather.temp = weatherModel.temperature
+        try? context.save()
     }
 }
