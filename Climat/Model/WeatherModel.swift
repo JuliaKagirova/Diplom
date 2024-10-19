@@ -6,6 +6,7 @@ import UIKit
 
 struct WeatherModel {
     
+    let id = UUID().uuidString
     let conditionId: Int
     let cityName: String
     let temperature: Double

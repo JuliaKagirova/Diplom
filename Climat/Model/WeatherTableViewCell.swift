@@ -17,24 +17,34 @@ class WeatherTableViewCell: UITableViewCell {
     var weatherDescriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = .systemGray
-        label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 18)
+        label.textColor = .black
+        return label
+    }()
+    
+    var weatherTempLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 22)
+        label.textColor = .black
+        return label
+    }()
+    
+    var weatherCityLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 22)
+        label.textColor = .black
         return label
     }()
     
     //MARK: - Life Cycle
-        
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        // Initialization code
-//    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubviews(weatherDescriptionLabel)
+        setupUI()
         setupConstraints()
-        self.selectionStyle = .default
+//        self.selectionStyle = .default
     }
     
     required init?(coder: NSCoder) {
@@ -45,33 +55,37 @@ class WeatherTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    }
+    
+    func setupUI() {
+        contentView.addSubviews(weatherDescriptionLabel, weatherCityLabel, weatherTempLabel)
+        contentView.backgroundColor = .bg
+        contentView.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
     
     func configWeatherArray(weather: WeatherModel) {
-//        postAuthor.text = post.author
         weatherDescriptionLabel.text = weather.description
-//        postImage.image = UIImage(named: post.image)
-//        postLikes.text = "Likes: \(post.likes)"
-//        viewCounter = Int(post.views)
-//        postViews.text = "Views: \(viewCounter)"
+        weatherCityLabel.text = weather.cityName
+        weatherTempLabel.text = weather.temperatureString
     }
     
     func setupConstraints() {
-        weatherDescriptionLabel.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor).isActive = true
-        weatherDescriptionLabel.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor).isActive = true
+        // city
+        weatherCityLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
+            .isActive = true
+        weatherCityLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
+            .isActive = true
+        
+        //description
+        weatherDescriptionLabel.topAnchor.constraint(equalTo: weatherCityLabel.bottomAnchor, constant: 16)
+            .isActive = true
+        weatherDescriptionLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
+            .isActive = true
+        
+        //temperature
+        weatherTempLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
+            .isActive = true
+        weatherTempLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            .isActive = true
     }
-    
-    
-    
-    
-    //MARK: - Event Handler
-    
-
-
 }
-
-//MARK: - Extension
-
-

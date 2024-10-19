@@ -46,7 +46,6 @@ class SearchWeatherController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.text = "21"
-        //        label.textColor = .black
         label.font = .systemFont(ofSize: 52, weight: .heavy)
         return label
     }()
@@ -56,7 +55,6 @@ class SearchWeatherController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.text = "°C"
-        //        label.textColor = .black
         label.font = .systemFont(ofSize: 52, weight: .bold)
         return label
     }()
@@ -103,7 +101,6 @@ class SearchWeatherController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.tintColor = .black
-//        button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         return button
     }()
@@ -164,7 +161,6 @@ class SearchWeatherController: UIViewController {
             print("weather didnt saved")
             return
         }
-        
     }
 }
 
@@ -205,6 +201,8 @@ extension SearchWeatherController: UITextFieldDelegate {
 extension SearchWeatherController:  WeatherManagerDelegate {
     
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
+        self.currentWeather = weather
+        
         DispatchQueue.main.async {
             self.temperatureLabel.text = weather.temperatureString
             self.cityLabel.text = weather.cityName

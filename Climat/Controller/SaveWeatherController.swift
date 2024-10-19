@@ -15,13 +15,17 @@ class SaveWeatherController: UITableViewController {
     var items = CoreDataManager.shared.items
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    
     //MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
+        tableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     //MARK: - Methods
@@ -29,16 +33,10 @@ class SaveWeatherController: UITableViewController {
     func setupUI() {
         view.backgroundColor = .bg
         title = "SaveScreen.title".localized
-        
+        tableView.register(WeatherTableViewCell.self, forCellReuseIdentifier: WeatherTableViewCell.id)
     }
-    
-    
     
     // MARK: - Table view data source
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
-    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return CoreDataManager.shared.items.count
@@ -55,7 +53,7 @@ class SaveWeatherController: UITableViewController {
             conditionId: model.faultingState,
             cityName: model.name ?? "",
             temperature: model.temp,
-            description: model.description
+            description: model.descr ?? ""
         )
         cell.configWeatherArray(weather: modelForCell)
         return cell
@@ -80,6 +78,4 @@ class SaveWeatherController: UITableViewController {
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
-    
 }

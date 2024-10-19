@@ -27,8 +27,6 @@ class SettingsController: UITableViewController {
         icon.image = UIImage(systemName: "bell.badge")
         icon.contentMode = .scaleAspectFit
         icon.tintColor = .black
-//        icon.backgroundColor = .systemRed
-//        icon.layer.cornerRadius = 5
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
     }()

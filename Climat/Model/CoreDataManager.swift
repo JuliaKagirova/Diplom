@@ -41,6 +41,7 @@ class CoreDataManager {
     func addWeather(weatherModel: WeatherModel) {
         guard getItem(weather: weatherModel) == nil else { return }
         let weather = WeatherItem(context: context)
+        weather.id = weatherModel.id
         weather.name = weatherModel.cityName
         weather.descr = weatherModel.description
         weather.image = weatherModel.conditionName
