@@ -21,6 +21,9 @@ class SaveWeatherController: UITableViewController {
         super.viewDidLoad()
         setupUI()
         tableView.reloadData()
+        let refreshControll = UIRefreshControl()
+        refreshControll.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        self.tableView.refreshControl = refreshControll
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,6 +38,15 @@ class SaveWeatherController: UITableViewController {
         title = "SaveScreen.title".localized
         tableView.register(WeatherTableViewCell.self, forCellReuseIdentifier: WeatherTableViewCell.id)
     }
+    
+    //MARK: - Event Handler
+    
+    @objc func refresh(_ sender: Any) {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            self.tableView.refreshControl?.endRefreshing()
+        }
+    }
+
     
     // MARK: - Table view data source
     
