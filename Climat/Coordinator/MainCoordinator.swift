@@ -24,8 +24,7 @@ class MainCoordinator: MainBaseCoordinator {
     lazy var saveWeatherCoordinator: SaveWeatherBaseCoordinator = SaveWeatherCoordinator()
     
     lazy var settingsCoordinator: SettingsBaseCoordinator = SettingsCoordinator()
-    
-    
+        
     lazy var rootViewController: UIViewController = UITabBarController()
     
     //MARK: - Methods
@@ -55,6 +54,7 @@ class MainCoordinator: MainBaseCoordinator {
             image: UIImage(systemName: "gearshape.2"),
             tag: 2
         )
+        
         (rootViewController as? UITabBarController)?.tabBar.backgroundColor = .tabbar
         (rootViewController as? UITabBarController)?.tabBar.tintColor = .selected
         (rootViewController as? UITabBarController)?.tabBar.unselectedItemTintColor = .unselected

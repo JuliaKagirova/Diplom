@@ -1,0 +1,25 @@
+//Search Screen
+"SearchScreen.title" = "Search";
+
+"SearchScreen.textFieldPlaceholder" = "Search...";
+
+"MoreDetails.title" = "more";
+
+//DetailsScreen
+"DetailsScreen.title" = "Details";
+
+"DetailsScreen.24" = "Weather to 24 hour";
+
+//Save Screen
+"SaveScreen.title" = "Saved";
+
+//Settings Screen
+"SettingsScreen.title" = "Settings";
+
+//Notification label
+"Notification.title" = "Notification";
+
+//Units
+"Units.title" = "Celsius / Fahrenheit";
+
+

@@ -1,6 +1,15 @@
 //Search Screen
 "SearchScreen.title" = "Поиск";
 
+"SearchScreen.textFieldPlaceholder" = "Поиск...";
+
+"MoreDetails.title" = "Ещё";
+
+//DetailsScreen
+"DetailsScreen.title" = "Подробнее";
+
+"DetailsScreen.24" = "Погода на 24 часа";
+
 //Save Screen
 "SaveScreen.title" = "Сохраненные";
 
@@ -10,5 +19,5 @@
 //Notification label
 "Notification.title" = "Уведомления";
 
-//Theme
-"Theme.title" = "Оформление";
+//Units
+"Units.title" = "Цельсий / Фаренгейт";

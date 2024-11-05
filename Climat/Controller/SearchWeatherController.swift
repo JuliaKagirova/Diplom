@@ -12,6 +12,8 @@ class SearchWeatherController: UIViewController {
     var weatherManager = WeatherManager()
     let locationManager = CLLocationManager()
     var coordinator: Coordinator?
+    var toggle = SettingsController().toggleButtonChecked
+    var searchCoordinator: SearchWeatherCoordinator?
     
     //MARK: - Private Properties
     
@@ -58,12 +60,20 @@ class SearchWeatherController: UIViewController {
         label.font = .systemFont(ofSize: 52, weight: .bold)
         return label
     }()
-    
-    private lazy var cityLabel: UILabel = {
+    private lazy var fLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
-        label.text = "London"
+        label.text = "°F"
+        label.font = .systemFont(ofSize: 52, weight: .bold)
+        return label
+    }()
+    
+     lazy var cityLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        label.text = "City"
         label.font = .systemFont(ofSize: 28, weight: .medium)
         return label
     }()
@@ -77,10 +87,10 @@ class SearchWeatherController: UIViewController {
         return label
     }()
     
-    private lazy var searchTextField: UITextField = {
+     lazy var searchTextField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.placeholder = "Search..."
+        field.placeholder = "SearchScreen.textFieldPlaceholder".localized
         field.font = .systemFont(ofSize: 22, weight: .medium)
         field.textColor = .black
         return field
@@ -115,6 +125,23 @@ class SearchWeatherController: UIViewController {
         return button
     }()
     
+    private lazy var details: UIButton = {
+        var details = UIButton()
+        details.translatesAutoresizingMaskIntoConstraints = false
+        details.setTitle("MoreDetails.title".localized, for: .normal)
+        details.setTitleColor(.systemBlue, for: .normal)
+        details.addTarget(self, action: #selector(detailsTapped), for: .touchUpInside)
+        return details
+    }()
+    
+    private lazy var underline: UIImageView = {
+        var line = UIImageView()
+        line.translatesAutoresizingMaskIntoConstraints = false
+        line.image = UIImage(named: "line")
+        line.backgroundColor = .systemBlue
+        return line
+    }()
+    
     //MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -136,13 +163,16 @@ class SearchWeatherController: UIViewController {
                 conditionImageView,
                 temperatureLabel,
                 cLabel,
+                fLabel,
                 cityLabel,
                 searchTextField,
                 locationPressed,
                 searchPressed,
                 descriptionLabel,
                 borderView,
-                savePressed
+                savePressed,
+                underline,
+                details
             )
     }
     
@@ -158,9 +188,14 @@ class SearchWeatherController: UIViewController {
             CoreDataManager.shared.addWeather(weatherModel: currentWeather)
             print("city added to core data")
         } else {
-            print("weather didnt saved")
+            print("weather didn't save")
             return
         }
+    }
+    @objc private func detailsTapped() {
+        let details = DetailsController()
+        navigationController?.pushViewController(details, animated: true)
+        print("more details tapped")
     }
 }
 
@@ -203,11 +238,24 @@ extension SearchWeatherController:  WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         self.currentWeather = weather
         
-        DispatchQueue.main.async {
-            self.temperatureLabel.text = weather.temperatureString
-            self.cityLabel.text = weather.cityName
-            self.descriptionLabel.text = weather.description
-            self.conditionImageView.image = UIImage(systemName: weather.conditionName)
+        if toggle == false {
+            print("toggle false")
+            DispatchQueue.main.async {
+                self.temperatureLabel.text = weather.temperatureString
+                self.cityLabel.text = weather.cityName
+                self.descriptionLabel.text = weather.description
+                self.conditionImageView.image = UIImage(systemName: weather.conditionName)
+//                print("farenheit = \(weather.farenheitTempString)")
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.temperatureLabel.text = weather.farenheitTempString
+                self.cityLabel.text = weather.cityName
+                self.descriptionLabel.text = weather.description
+                self.conditionImageView.image = UIImage(systemName: weather.conditionName)
+                print("farenheit = \(weather.farenheitTempString)")
+//                fLabel.
+            }
         }
     }
     
@@ -304,7 +352,8 @@ extension SearchWeatherController {
         //image
         conditionImageView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 26)
             .isActive = true
-        conditionImageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
+        conditionImageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            .isActive = true
         conditionImageView.widthAnchor.constraint(equalToConstant: 140)
             .isActive = true
         conditionImageView.heightAnchor.constraint(equalToConstant: 160)
@@ -320,16 +369,21 @@ extension SearchWeatherController {
             .isActive = true
         cLabel.leadingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor, constant: 16)
             .isActive = true
-        
-        //plusButton
-        savePressed.centerYAnchor.constraint(equalTo: cityLabel.centerYAnchor)
+
+        //underline
+        underline.topAnchor.constraint(equalTo: details.bottomAnchor, constant: -6)
             .isActive = true
-        savePressed.leadingAnchor.constraint(equalTo: cityLabel.trailingAnchor, constant: 16)
+        underline.heightAnchor.constraint(equalToConstant: 2)
+            .isActive = true
+        underline.centerXAnchor.constraint(equalTo: details.centerXAnchor)
+            .isActive = true
+        underline.widthAnchor.constraint(equalToConstant: 40)
+            .isActive = true
+        
+        //details
+        details.centerYAnchor.constraint(equalTo: cityLabel.centerYAnchor,constant: 6)
+            .isActive = true
+        details.leadingAnchor.constraint(equalTo: cityLabel.trailingAnchor, constant: 16)
             .isActive = true
     }
 }
-
-
-
-
-

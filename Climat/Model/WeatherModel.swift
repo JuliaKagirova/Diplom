@@ -36,5 +36,11 @@ struct WeatherModel {
     var temperatureString: String {
         return String(format: "%.1f", temperature)
     }
-    
+    var farenheitTemp: String {
+        return String(temperature * 1.80 + 32.00)
+       // f = C * 1.8000 + 32.00
+    }
+    var farenheitTempString: String {
+        return String(format: "%.1f", farenheitTemp)
+    }
 }
