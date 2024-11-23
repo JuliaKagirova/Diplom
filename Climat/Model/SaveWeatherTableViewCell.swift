@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class WeatherTableViewCell: UITableViewCell {
+class SaveWeatherTableViewCell: UITableViewCell {
 
     //MARK: - Properties
 

@@ -7,17 +7,17 @@ import CoreLocation
 
 //MARK: - Protocol WeatherManagerDelegate
 
-protocol WeatherManagerDelegate {
-    func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel)
+protocol NetworkManagerDelegate {
+    func didUpdateWeather(_ weatherManager: NetworkManager, weather: WeatherModel)
     func didFailWithError(error: Error)
 }
 
-struct WeatherManager {
+struct NetworkManager {
     
     //MARK: - Properties
     
     let weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=04405b54121d2705cff98d43af341e67&units=metric"
-    var delegate: WeatherManagerDelegate?
+    var delegate: NetworkManagerDelegate?
     
     //MARK: - Methods
     
