@@ -1,14 +1,18 @@
 //Search Screen
 "SearchScreen.title" = "Поиск";
-
+"Alert.citySaved" = "Город уже сохранен";
+"Alert.cityExist" = "уже добавлен в список городов";
 //Save Screen
 "SaveScreen.title" = "Сохраненные";
 
 //Settings Screen
 "SettingsScreen.title" = "Настройки";
+"SettingsScreen.changeTemp" = "°C / °F";
 
 //Notification label
 "Notification.title" = "Уведомления";
 
-//Theme
-"Theme.title" = "Оформление";
+//Details Screen
+"DetailScreen.todayLabel" = "Погода на 24 часа";
+"DetailScreen.tempOfTheDay" = "Динамика температуры";
+

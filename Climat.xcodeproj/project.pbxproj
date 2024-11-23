@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1F7C52F12CEE2A7300605EFF /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7C52F02CEE2A7300605EFF /* Charts.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		1F7C52F02CEE2A7300605EFF /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = System/Library/Frameworks/Charts.framework; sourceTree = SDKROOT; };
 		1FE94EFE2CBD670E00A02827 /* Climat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Climat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -36,16 +41,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F7C52F12CEE2A7300605EFF /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F7C52EF2CEE2A7300605EFF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1F7C52F02CEE2A7300605EFF /* Charts.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1FE94EF52CBD670E00A02827 = {
 			isa = PBXGroup;
 			children = (
 				1FE94F002CBD670E00A02827 /* Climat */,
+				1F7C52EF2CEE2A7300605EFF /* Frameworks */,
 				1FE94EFF2CBD670E00A02827 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,7 +114,7 @@
 				};
 			};
 			buildConfigurationList = 1FE94EF92CBD670E00A02827 /* Build configuration list for PBXProject "Climat" */;
-			developmentRegion = ru;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,

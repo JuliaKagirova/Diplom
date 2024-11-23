@@ -4,14 +4,9 @@
 
 import UIKit
 import CoreLocation
+import CoreData
 
-class SearchWeatherController: UIViewController {
-    
-    //MARK: - Properties
-    var currentWeather: WeatherModel?
-    var weatherManager = WeatherManager()
-    let locationManager = CLLocationManager()
-    var coordinator: Coordinator?
+final class SearchWeatherController: UIViewController {
     
     //MARK: - Private Properties
     
@@ -41,7 +36,7 @@ class SearchWeatherController: UIViewController {
         return view
     }()
     
-    private lazy var temperatureLabel: UILabel = {
+    lazy var temperatureLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
@@ -80,7 +75,7 @@ class SearchWeatherController: UIViewController {
     private lazy var searchTextField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.placeholder = "Search..."
+        field.placeholder = "SearchScreen.title".localized
         field.font = .systemFont(ofSize: 22, weight: .medium)
         field.textColor = .systemBackground
         return field
@@ -99,7 +94,7 @@ class SearchWeatherController: UIViewController {
     private lazy var savePressed: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.setImage(UIImage(systemName: "checkmark.icloud"), for: .normal)
         button.tintColor = .black
         button.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         return button
@@ -115,6 +110,26 @@ class SearchWeatherController: UIViewController {
         return button
     }()
     
+    private lazy var temperatureNotificationService: NotificationsHandler = {
+        let service = NotificationsHandler(delegate: self)
+        return service
+    }()
+    
+    private var temperatureToggle: NotificationCenterModels.TemperatureToggleType = .celcius {
+        didSet {
+            updateTemperature()
+        }
+    }
+    
+    //MARK: - Properties
+    
+    var items = CoreDataManager.shared.items
+    var currentWeather: WeatherModel?
+    var networkManager = NetworkManager()
+    let locationManager = CLLocationManager()
+    weak var coordinator: Coordinator?
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     //MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -125,25 +140,54 @@ class SearchWeatherController: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
         searchTextField.delegate = self
-        weatherManager.delegate = self
+        networkManager.delegate = self
+        temperatureNotificationService.startObserving()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        networkManager.delegate = self
     }
     
     //MARK: - Private Methods
     
     private func setupUI() {
         view.addSubviews(
-                bgView,
-                conditionImageView,
-                temperatureLabel,
-                cLabel,
-                cityLabel,
-                searchTextField,
-                locationPressed,
-                searchPressed,
-                descriptionLabel,
-                borderView,
-                savePressed
+            bgView,
+            conditionImageView,
+            temperatureLabel,
+            cLabel,
+            cityLabel,
+            searchTextField,
+            locationPressed,
+            searchPressed,
+            descriptionLabel,
+            borderView,
+            savePressed
+        )
+    }
+    
+    private func findDuplicates() {
+        if items.firstIndex(where: {$0.name == currentWeather?.cityName}) != nil {
+            let alert = UIAlertController(
+                title: "Alert.citySaved".localized,
+                message: "\(currentWeather?.cityName ?? "город")" + " " + "Alert.cityExist".localized,
+                preferredStyle: .alert
             )
+            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+            self.present(alert, animated: true)
+        } else {
+            if let currentWeather {
+                CoreDataManager.shared.addWeather(weatherModel: currentWeather)
+                print("city added to core data")
+            }
+        }
+    }
+    
+    private func updateTemperature() {
+        self.cLabel.text = temperatureToggle == .celcius ? "°C" : "°F"
+        self.networkManager.fetchWeather(cityName: currentWeather?.cityName ?? "",
+                                         isMetric: temperatureToggle == .celcius)
     }
     
     //MARK: - Event Handler
@@ -154,13 +198,16 @@ class SearchWeatherController: UIViewController {
     }
     
     @objc private func saveButtonPressed() {
-        if let currentWeather {
-            CoreDataManager.shared.addWeather(weatherModel: currentWeather)
-            print("city added to core data")
-        } else {
-            print("weather didnt saved")
-            return
-        }
+        findDuplicates()
+    }
+}
+
+// MARK: - Extension NotificationHandlerDelegate
+
+extension SearchWeatherController: NotificationHandlerDelegate {
+    
+    func updateDataAfterNotificationHandling(currentType: NotificationCenterModels.TemperatureToggleType) {
+        self.temperatureToggle = currentType
     }
 }
 
@@ -170,12 +217,10 @@ extension SearchWeatherController: UITextFieldDelegate {
     
     @objc private func searchButtonPressed(_ sender: UIButton) {
         searchTextField.endEditing(true)
-        print("search Button Pressed")
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTextField.endEditing(true)
-        print(searchTextField.text!)
         return true
     }
     
@@ -190,17 +235,18 @@ extension SearchWeatherController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         if let city = searchTextField.text {
-            weatherManager.fetchWeather(cityName: city)
+            networkManager.fetchWeather(cityName: city,
+                                        isMetric: self.temperatureToggle == .celcius)
         }
         searchTextField.text = "  "
     }
 }
 
-//MARK: - Extension WeatherManagerDelegate
+//MARK: - Extension NetworkManagerDelegate
 
-extension SearchWeatherController:  WeatherManagerDelegate {
+extension SearchWeatherController: NetworkManagerDelegate {
     
-    func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
+    func didUpdateWeather(_ weatherManager: NetworkManager, weather: WeatherModel) {
         self.currentWeather = weather
         
         DispatchQueue.main.async {
@@ -209,10 +255,12 @@ extension SearchWeatherController:  WeatherManagerDelegate {
             self.descriptionLabel.text = weather.description
             self.conditionImageView.image = UIImage(systemName: weather.conditionName)
         }
+        
+        CoreDataManager.shared.updateData(weather)
     }
     
-    func didFailWithError(error: Error) {
-        print(error.localizedDescription )
+    func didFailWithError(error: NSError) {
+        print(error.localizedDescription)
     }
 }
 
@@ -220,16 +268,22 @@ extension SearchWeatherController:  WeatherManagerDelegate {
 
 extension SearchWeatherController: CLLocationManagerDelegate {
     
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+        print(error)
+    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             locationManager.stopUpdatingLocation()
             let lat = location.coordinate.latitude
             let lon = location.coordinate.longitude
-            weatherManager.fetchWeather(latitude: lat, longitude: lon)
+            networkManager.fetchWeather(latitude: lat,
+                                        longitude: lon,
+                                        isMetric: temperatureToggle == .celcius)
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    private func locationManager(_ manager: CLLocationManager, didFailWithError error: NetworkError) {
         print(error.localizedDescription)
     }
 }
@@ -321,15 +375,10 @@ extension SearchWeatherController {
         cLabel.leadingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor, constant: 16)
             .isActive = true
         
-        //plusButton
+        //saveButton
         savePressed.centerYAnchor.constraint(equalTo: cityLabel.centerYAnchor)
             .isActive = true
         savePressed.leadingAnchor.constraint(equalTo: cityLabel.trailingAnchor, constant: 16)
             .isActive = true
     }
 }
-
-
-
-
-

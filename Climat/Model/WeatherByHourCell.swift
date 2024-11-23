@@ -11,16 +11,9 @@ final class WeatherByHourCell: UICollectionViewCell {
     
     //MARK: - Properties
     
-    static let reuseId = "PhotoCell"
+    static let reuseId = "WeatherByHourCell"
     
-     lazy var imageView: UIImageView = {
-        var imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-     lazy var dateLabel: UILabel = {
+    lazy var dateLabel: UILabel = {
         var dateLabel = UILabel()
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.text = ""
@@ -29,26 +22,26 @@ final class WeatherByHourCell: UICollectionViewCell {
         return dateLabel
     }()
     
-     lazy var tempLabel: UILabel = {
+    lazy var tempLabel: UILabel = {
         var tempLabel = UILabel()
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
-        tempLabel.text = "23.5"
+        tempLabel.text = ""
         tempLabel.textColor = .black
-        tempLabel.font = .systemFont(ofSize: 18)
+        tempLabel.font = .systemFont(ofSize: 24)
         return tempLabel
     }()
     
     lazy var descriptionLabel: UILabel = {
-       var label = UILabel()
-       label.translatesAutoresizingMaskIntoConstraints = false
-       label.text = "rain"
-       label.textColor = .black
-       label.font = .systemFont(ofSize: 18)
+        var label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = ""
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 18)
         return label
-   }()
+    }()
     
-    //MARK: - Life Cycle
-
+    //MARK: - Init
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCell()
@@ -62,9 +55,10 @@ final class WeatherByHourCell: UICollectionViewCell {
     
     private func setupCell() {
         
-        self.contentView.addSubviews(imageView,dateLabel, tempLabel, descriptionLabel)
+        self.contentView.addSubviews(dateLabel, tempLabel, descriptionLabel)
         self.clipsToBounds = true
-        contentView.backgroundColor = .orange
+        contentView.backgroundColor = .systemBackground
+        contentView.layer.cornerRadius = 20
         
         //dateLabel
         dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor)
@@ -72,18 +66,8 @@ final class WeatherByHourCell: UICollectionViewCell {
         dateLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
             .isActive = true
         
-        //imageView
-        imageView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 4)
-            .isActive = true
-        imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
-            .isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 100)
-            .isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 100)
-            .isActive = true
-        
         //tempLabel
-        tempLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4)
+        tempLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 4)
             .isActive = true
         tempLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
             .isActive = true

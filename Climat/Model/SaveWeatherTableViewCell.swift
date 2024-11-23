@@ -8,10 +8,10 @@
 import UIKit
 import CoreData
 
-class SaveWeatherTableViewCell: UITableViewCell {
-
+final class SaveWeatherTableViewCell: UITableViewCell {
+    
     //MARK: - Properties
-
+    
     static let id = "WeatherTableViewCell"
     
     var weatherDescriptionLabel: UILabel = {
@@ -38,13 +38,12 @@ class SaveWeatherTableViewCell: UITableViewCell {
         return label
     }()
     
-    //MARK: - Life Cycle
+    //MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
         setupConstraints()
-//        self.selectionStyle = .default
     }
     
     required init?(coder: NSCoder) {

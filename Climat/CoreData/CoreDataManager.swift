@@ -8,10 +8,10 @@
 import UIKit
 import CoreData
 
-class CoreDataManager {
+final class CoreDataManager {
     
     //MARK: - Properties
-
+    
     static let shared = CoreDataManager()
     
     var items: [WeatherItem] {
@@ -32,12 +32,12 @@ class CoreDataManager {
         try? context?.save()
     }
     
-    private func getItem(weather: WeatherModel) -> WeatherItem? {
+    func getItem(weather: WeatherModel) -> WeatherItem? {
         let request = WeatherItem.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", weather.cityName)
+        request.predicate = NSPredicate(format: "id == %@", weather.id)
         return (try? context.fetch(request))?.first
     }
-
+    
     func addWeather(weatherModel: WeatherModel) {
         guard getItem(weather: weatherModel) == nil else { return }
         let weather = WeatherItem(context: context)
@@ -48,4 +48,11 @@ class CoreDataManager {
         weather.temp = weatherModel.temperature
         try? context.save()
     }
+    
+    func updateData(_ model: WeatherModel) {
+        guard let item = getItem(weather: model) else { return }
+        deleteWeather(item: item)
+        addWeather(weatherModel: model)
+    }
 }
+

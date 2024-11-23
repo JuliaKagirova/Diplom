@@ -7,13 +7,11 @@
 
 import UIKit
 
-class SettingsController: UITableViewController {
+final class SettingsController: UITableViewController {
     
-    //MARK: - Properties
+    //MARK: - Private Properties
     
-    var notificationManager = LocalNotificationsService()
-    var coordinator: Coordinator?
-    lazy var notificationLink: UIButton = {
+    private lazy var notificationLink: UIButton = {
         var button = UIButton()
         button.setTitle("Notification.title".localized, for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -22,13 +20,54 @@ class SettingsController: UITableViewController {
         return button
     }()
     
-    lazy var notificationIcon: UIImageView = {
+    private lazy var tempLabel: UILabel = {
+        var label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 18)
+        label.text = "SettingsScreen.changeTemp".localized
+        return label
+    }()
+    
+    private lazy var notificationIcon: UIImageView = {
         var icon = UIImageView()
         icon.image = UIImage(systemName: "bell.badge")
         icon.contentMode = .scaleAspectFit
         icon.tintColor = .black
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
+    }()
+    
+    private lazy var tempIcon: UIImageView = {
+        var icon = UIImageView()
+        icon.image = UIImage(systemName: "thermometer.low")
+        icon.contentMode = .scaleAspectFit
+        icon.tintColor = .black
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        return icon
+    }()
+    
+    private lazy var notificationToggle: UISwitch = {
+        var toggle = UISwitch()
+        toggle.setOn(false, animated: true)
+        toggle.onTintColor = .systemGreen
+        toggle.addTarget(self, action: #selector(notificationLinkTapped), for: .valueChanged)
+        toggle.translatesAutoresizingMaskIntoConstraints = false
+        return toggle
+    }()
+    
+    //MARK: - Properties
+    
+    var currentWeather: WeatherModel?
+    weak var coordinator: Coordinator?
+    var notificationManager = LocalNotificationsService()
+    
+    lazy var tempToggle: UISwitch = {
+        var toggle = UISwitch()
+        toggle.setOn(false, animated: true)
+        toggle.onTintColor = .systemGreen
+        toggle.addTarget(self, action: #selector(tempToggleTapped), for: .valueChanged)
+        toggle.translatesAutoresizingMaskIntoConstraints = false
+        return toggle
     }()
     
     //MARK: - Life Cycle
@@ -45,9 +84,16 @@ class SettingsController: UITableViewController {
         view.backgroundColor = .bg
         title = "SettingsScreen.title".localized
         
-        view.addSubview(notificationLink)
-        view.addSubview(notificationIcon)
+        view.addSubviews(
+            notificationLink,
+            notificationIcon,
+            tempLabel,
+            tempIcon,
+            tempToggle,
+            notificationToggle
+        )
     }
+    
     private func openSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -60,13 +106,22 @@ class SettingsController: UITableViewController {
         notificationManager.requestPermission()
         openSettings()
     }
+    
+    @objc private func tempToggleTapped() {
+        NotificationCenter.default.post(name: NotificationCenterModels.NotificationName.temperatureToggle.name,
+                                        object: nil,
+                                        userInfo: [
+                                            NotificationCenterModels.NotificationUserInfoKey.isOn: tempToggle.isOn
+                                        ])
+    }
 }
 
 //MARK: - Extension Constraints
 
 extension SettingsController {
     func setupConstraints() {
-        //Icon
+        
+        //notification icon
         notificationIcon.centerYAnchor.constraint(equalTo: notificationLink.centerYAnchor)
             .isActive = true
         notificationIcon.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12)
@@ -75,14 +130,41 @@ extension SettingsController {
             .isActive = true
         notificationIcon.widthAnchor.constraint(equalToConstant: 30)
             .isActive = true
-        //Label
+        
+        //notification label
         notificationLink.topAnchor.constraint(equalTo: view.topAnchor, constant: 42)
             .isActive = true
         notificationLink.leadingAnchor.constraint(equalTo: notificationIcon.trailingAnchor, constant: 8)
             .isActive = true
-        notificationLink.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12)
-            .isActive = true
         notificationLink.heightAnchor.constraint(equalToConstant: 50)
+            .isActive = true
+        
+        //changeTemp label
+        tempLabel.topAnchor.constraint(equalTo: notificationIcon.bottomAnchor, constant: 22)
+            .isActive = true
+        tempLabel.leadingAnchor.constraint(equalTo: tempIcon.trailingAnchor, constant: 8)
+            .isActive = true
+        
+        //thermometer icon
+        tempIcon.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor)
+            .isActive = true
+        tempIcon.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12)
+            .isActive = true
+        tempIcon.heightAnchor.constraint(equalToConstant: 30)
+            .isActive = true
+        tempIcon.widthAnchor.constraint(equalToConstant: 30)
+            .isActive = true
+        
+        //notification toggle
+        notificationToggle.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -12)
+            .isActive = true
+        notificationToggle.centerYAnchor.constraint(equalTo: notificationLink.centerYAnchor)
+            .isActive = true
+        
+        // temp toggle
+        tempToggle.centerYAnchor.constraint(equalTo: tempLabel.centerYAnchor)
+            .isActive = true
+        tempToggle.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -12)
             .isActive = true
     }
 }

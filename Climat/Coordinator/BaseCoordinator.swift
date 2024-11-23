@@ -51,5 +51,3 @@ protocol MainBaseCoordinator: Coordinator {
     var settingsCoordinator: SettingsBaseCoordinator { get }
     func moveTo(flow: AppFlow)
 }
-
-

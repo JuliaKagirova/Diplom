@@ -7,15 +7,15 @@
 
 import UIKit
 
-class SaveWeatherCoordinator: SaveWeatherBaseCoordinator {
+final class SaveWeatherCoordinator: SaveWeatherBaseCoordinator {
     
     //MARK: - Properties
-
+    
     var parentCoordinator: MainBaseCoordinator?
     var rootViewController: UIViewController = UIViewController()
     
     //MARK: - Methods
-
+    
     func start() -> UIViewController {
         let saveVC = SaveWeatherController()
         saveVC.coordinator = self
@@ -26,6 +26,4 @@ class SaveWeatherCoordinator: SaveWeatherBaseCoordinator {
     func showSaveWeatherScreen() {
         
     }
-    
-
 }

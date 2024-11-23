@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingsCoordinator: SettingsBaseCoordinator {
+final class SettingsCoordinator: SettingsBaseCoordinator {
     
     //MARK: - Properties
     
@@ -26,5 +26,4 @@ class SettingsCoordinator: SettingsBaseCoordinator {
     func showSettingsScreen() {
         
     }
-    
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchWeatherCoordinator: SearchWeatherBaseCoordinator {
+final class SearchWeatherCoordinator: SearchWeatherBaseCoordinator {
     
     //MARK: - Properties
     
@@ -15,7 +15,7 @@ class SearchWeatherCoordinator: SearchWeatherBaseCoordinator {
     var rootViewController: UIViewController = UIViewController()
     
     //MARK: - Methods
-
+    
     func start() -> UIViewController {
         let searchVC = SearchWeatherController()
         searchVC.coordinator = self
@@ -27,4 +27,3 @@ class SearchWeatherCoordinator: SearchWeatherBaseCoordinator {
         
     }
 }
- 

@@ -13,19 +13,15 @@ enum AppFlow {
     case settings
 }
 
-class MainCoordinator: MainBaseCoordinator {
+final class MainCoordinator: MainBaseCoordinator {
     
     //MARK: - Properties
     
     var parentCoordinator: MainBaseCoordinator?
     
     lazy var searchWeatherCoordinator: SearchWeatherBaseCoordinator = SearchWeatherCoordinator()
-    
     lazy var saveWeatherCoordinator: SaveWeatherBaseCoordinator = SaveWeatherCoordinator()
-    
     lazy var settingsCoordinator: SettingsBaseCoordinator = SettingsCoordinator()
-    
-    
     lazy var rootViewController: UIViewController = UITabBarController()
     
     //MARK: - Methods

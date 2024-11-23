@@ -1,7 +1,19 @@
-/* 
-  Localizable.strings
-  Climat
+//Search Screen
+"SearchScreen.title" = "Search";
+"Alert.citySaved" = "City saved already";
+"Alert.cityExist" = " exist in this list";
 
-  Created by Юлия Кагирова on 16.11.2024.
-  
-*/
+//Save Screen
+"SaveScreen.title" = "Saved";
+
+//Settings Screen
+"SettingsScreen.title" = "Settings";
+"SettingsScreen.changeTemp" = "°C / °F";
+
+//Notification label
+"Notification.title" = "Notifications";
+
+//Details Screen
+"DetailScreen.todayLabel" = "Forcast for 24 hours";
+"DetailScreen.tempOfTheDay" = "Temperature dynamics";
+
