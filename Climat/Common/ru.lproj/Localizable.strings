@@ -2,6 +2,7 @@
 "SearchScreen.title" = "Поиск";
 "Alert.citySaved" = "Город уже сохранен";
 "Alert.cityExist" = "уже добавлен в список городов";
+
 //Save Screen
 "SaveScreen.title" = "Сохраненные";
 
