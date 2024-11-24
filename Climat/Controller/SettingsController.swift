@@ -11,13 +11,12 @@ final class SettingsController: UITableViewController {
     
     //MARK: - Private Properties
     
-    private lazy var notificationLink: UIButton = {
-        var button = UIButton()
-        button.setTitle("Notification.title".localized, for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(notificationLinkTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    private lazy var notificationLabel: UILabel = {
+        var label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 18)
+        label.text = "Notification.title".localized
+        return label
     }()
     
     private lazy var tempLabel: UILabel = {
@@ -85,7 +84,7 @@ final class SettingsController: UITableViewController {
         title = "SettingsScreen.title".localized
         
         view.addSubviews(
-            notificationLink,
+            notificationLabel,
             notificationIcon,
             tempLabel,
             tempIcon,
@@ -122,7 +121,7 @@ extension SettingsController {
     func setupConstraints() {
         
         //notification icon
-        notificationIcon.centerYAnchor.constraint(equalTo: notificationLink.centerYAnchor)
+        notificationIcon.centerYAnchor.constraint(equalTo: notificationLabel.centerYAnchor)
             .isActive = true
         notificationIcon.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12)
             .isActive = true
@@ -132,11 +131,11 @@ extension SettingsController {
             .isActive = true
         
         //notification label
-        notificationLink.topAnchor.constraint(equalTo: view.topAnchor, constant: 42)
+        notificationLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 42)
             .isActive = true
-        notificationLink.leadingAnchor.constraint(equalTo: notificationIcon.trailingAnchor, constant: 8)
+        notificationLabel.leadingAnchor.constraint(equalTo: notificationIcon.trailingAnchor, constant: 8)
             .isActive = true
-        notificationLink.heightAnchor.constraint(equalToConstant: 50)
+        notificationLabel.heightAnchor.constraint(equalToConstant: 50)
             .isActive = true
         
         //changeTemp label
@@ -158,7 +157,7 @@ extension SettingsController {
         //notification toggle
         notificationToggle.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -12)
             .isActive = true
-        notificationToggle.centerYAnchor.constraint(equalTo: notificationLink.centerYAnchor)
+        notificationToggle.centerYAnchor.constraint(equalTo: notificationLabel.centerYAnchor)
             .isActive = true
         
         // temp toggle

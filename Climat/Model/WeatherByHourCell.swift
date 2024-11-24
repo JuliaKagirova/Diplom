@@ -17,7 +17,7 @@ final class WeatherByHourCell: UICollectionViewCell {
         var dateLabel = UILabel()
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.text = ""
-        dateLabel.textColor = .black
+//        dateLabel.textColor = .black
         dateLabel.font = .systemFont(ofSize: 18)
         return dateLabel
     }()
@@ -26,7 +26,7 @@ final class WeatherByHourCell: UICollectionViewCell {
         var tempLabel = UILabel()
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = ""
-        tempLabel.textColor = .black
+//        tempLabel.textColor = .black
         tempLabel.font = .systemFont(ofSize: 24)
         return tempLabel
     }()
@@ -35,7 +35,7 @@ final class WeatherByHourCell: UICollectionViewCell {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
-        label.textColor = .black
+//        label.textColor = .black
         label.font = .systemFont(ofSize: 18)
         return label
     }()

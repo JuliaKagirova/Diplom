@@ -59,7 +59,7 @@ final class SearchWeatherController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.text = "London"
-        label.font = .systemFont(ofSize: 28, weight: .medium)
+        label.font = .systemFont(ofSize: 42, weight: .medium)
         return label
     }()
     
@@ -344,13 +344,13 @@ extension SearchWeatherController {
             .isActive = true
         
         //city
-        cityLabel.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 87)
+        cityLabel.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 60)
             .isActive = true
         cityLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
             .isActive = true
         
         //description
-        descriptionLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 18)
+        descriptionLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 22)
             .isActive = true
         descriptionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
             .isActive = true
@@ -365,12 +365,12 @@ extension SearchWeatherController {
             .isActive = true
         
         //temperature
-        temperatureLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20)
+        temperatureLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10)
             .isActive = true
         temperatureLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
             .isActive = true
         //C
-        cLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20)
+        cLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10)
             .isActive = true
         cLabel.leadingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor, constant: 16)
             .isActive = true

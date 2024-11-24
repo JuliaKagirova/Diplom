@@ -10,6 +10,7 @@ import UIKit
 final class SaveWeatherController: UITableViewController {
     
     //MARK: - Private Properties
+    
     private var currentTemperatureType: NotificationCenterModels.TemperatureToggleType = .celcius
     
     private lazy var temperatureNotificationService: NotificationsHandler = {

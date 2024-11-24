@@ -29,11 +29,11 @@ struct ChartsView: View {
                 x: .value("Time", tempModel.time),
                 y: .value("Temperature", tempModel.temp)
             )
-            .foregroundStyle(.black)
+//            .foregroundStyle(.black)
             .symbolSize(10)
         }
         .chartYAxisLabel(position: .topLeading, alignment: .leading, spacing: 10) {
-            Text("°")
+            Text("Temp")
         }
         .chartYAxis {
             AxisMarks(position: .leading)
